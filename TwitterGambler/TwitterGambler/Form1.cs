@@ -18,14 +18,52 @@ namespace TwitterGambler
     {
         static List<TwitterUser> users = new List<TwitterUser>();
         List<String> keywords = new List<String>();
+        List<QueryResult> results = new List<QueryResult>();
         static BackgroundWorker bw;
+        int refreshRate;
+        int i;
 
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
             loadKeywords();
             loadUsers();
+            progressBar1.Style = ProgressBarStyle.Marquee;
+            progressBar1.MarqueeAnimationSpeed = 30;
+            progressBar1.Visible = false;
 
+            refreshRate = 600;
+            i = refreshRate;
+
+            progressBar1.Visible = true;
+            foreach (String user in lbTwitterUsers.Items)
+            {
+                getTweetsAsync(user);
+            }
+            tmrRefreshTwitter.Enabled = true;
+       }
+
+        private void tmrRefreshTwitter_Tick(object sender, EventArgs e)
+        {
+            if (i <= 0)
+            {
+                progressBar1.Visible = true;
+                foreach (String user in lbTwitterUsers.Items)
+                {
+                    getTweetsAsync(user);
+                }
+                i = refreshRate;
+                lblCountdown.Text = i.ToString();
+            }
+            else
+            {
+                i += -1;
+                lblCountdown.Text = i.ToString();
+            }
         }
 
         private void btnAddTwitterUser_Click(object sender, EventArgs e)
@@ -48,7 +86,7 @@ namespace TwitterGambler
 
         private void btnAddKeyword_Click(object sender, EventArgs e)
         {
-            if (txtAddTwitterUser.Text != "")
+            if (txtAddKeyword.Text != "")
             {
                 lbKeywords.Items.Add(txtAddKeyword.Text);
                 saveKeywords();
@@ -221,7 +259,7 @@ namespace TwitterGambler
             e.Result = ret;
         }
 
-        static void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             List<String[]> returnedTweetStack = (List<String[]>)e.Result;
             
@@ -229,8 +267,6 @@ namespace TwitterGambler
             String[] stackInfo = returnedTweetStack.ElementAt(0);
             String username = stackInfo[0];
             returnedTweetStack.RemoveAt(0);
-
-            MessageBox.Show(returnedTweetStack.Count.ToString());
             foreach (TwitterUser user in users)
             {
                 if (user.Username == username)
@@ -242,24 +278,84 @@ namespace TwitterGambler
                     }
                 }
             }
-            MessageBox.Show("DONE!");
+            progressBar1.Visible = false;
         }
 
-        private void btnViewUsersTweets_Click(object sender, EventArgs e)
+        private void btnSearch_Click(object sender, EventArgs e)
         {
-            foreach (TwitterUser user in users)
+            progressBar1.Visible = true;
+            results.Clear();
+            foreach (String keyword in lbKeywords.Items)
             {
-                if (user.Username == textBox1.Text)
+                foreach (TwitterUser user in users)
                 {
-                    dataGridView1.DataSource = user.Tweets;
-                    MessageBox.Show(user.Tweets.Count.ToString());
+                    foreach (String[] tweet in user.Tweets)
+                    {
+                        // MessageBox.Show("Seeing if " + tweet[1] + " contains " + txtKeyword.Text);
+                        if (tweet[1].IndexOf(keyword) != -1)
+                        {
+                            results.Add(new QueryResult(user.Username, tweet[0], tweet[1]));
+                        }
+                    }
                 }
             }
+            dataGridView1.DataSource = results;
+            progressBar1.Visible = false;
         }
 
-        private void btnGetTweets_Click(object sender, EventArgs e)
+        private void tsmiEx_Click(object sender, EventArgs e)
         {
-            getTweetsAsync(textBox1.Text);
+            refreshRate = 10;
+            i = 10;
+            tsmiEx.Checked = true;
+            tsmi5M.Checked = false;
+            tsmi10M.Checked = false;
+            tsmi30M.Checked = false;
+            tsmi1H.Checked = false;
+        }
+
+        private void tsmi5M_Click(object sender, EventArgs e)
+        {
+            refreshRate = 300;
+            i = 300;
+            tsmiEx.Checked = false;
+            tsmi5M.Checked = true;
+            tsmi10M.Checked = false;
+            tsmi30M.Checked = false;
+            tsmi1H.Checked = false;
+        }
+
+        private void tsmi10M_Click(object sender, EventArgs e)
+        {
+            refreshRate = 600;
+            i = 600;
+            tsmiEx.Checked = false;
+            tsmi5M.Checked = false;
+            tsmi10M.Checked = true;
+            tsmi30M.Checked = false;
+            tsmi1H.Checked = false;
+        }
+
+        private void tsmi30M_Click(object sender, EventArgs e)
+        {
+            refreshRate = 1800;
+            i = 1800;
+            tsmiEx.Checked = false;
+            tsmi5M.Checked = false;
+            tsmi10M.Checked = false;
+            tsmi30M.Checked = true;
+            tsmi1H.Checked = false;
+        }
+
+        private void tsmi1H_Click(object sender, EventArgs e)
+        {
+            refreshRate = 3600;
+            i = 3600;
+            tsmiEx.Checked = false;
+            tsmi5M.Checked = false;
+            tsmi10M.Checked = false;
+            tsmi30M.Checked = false;
+            tsmi1H.Checked = true;
         }
     }
 }

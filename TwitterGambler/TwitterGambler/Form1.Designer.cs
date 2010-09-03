@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lbTwitterUsers = new System.Windows.Forms.ListBox();
             this.btnAddTwitterUser = new System.Windows.Forms.Button();
             this.btnAddKeyword = new System.Windows.Forms.Button();
@@ -37,23 +38,34 @@
             this.btnDeleteKeyword = new System.Windows.Forms.Button();
             this.btnDeleteTwitterUser = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btnViewUsersTweets = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.btnGetTweets = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.tmrRefreshTwitter = new System.Windows.Forms.Timer(this.components);
+            this.lblCountdown = new System.Windows.Forms.Label();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi5M = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi10M = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi30M = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi1H = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiEx = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbTwitterUsers
             // 
+            this.lbTwitterUsers.BackColor = System.Drawing.SystemColors.Control;
             this.lbTwitterUsers.FormattingEnabled = true;
-            this.lbTwitterUsers.Location = new System.Drawing.Point(12, 68);
+            this.lbTwitterUsers.Location = new System.Drawing.Point(12, 112);
             this.lbTwitterUsers.Name = "lbTwitterUsers";
             this.lbTwitterUsers.Size = new System.Drawing.Size(176, 303);
             this.lbTwitterUsers.TabIndex = 0;
             // 
             // btnAddTwitterUser
             // 
-            this.btnAddTwitterUser.Location = new System.Drawing.Point(12, 39);
+            this.btnAddTwitterUser.Location = new System.Drawing.Point(12, 83);
             this.btnAddTwitterUser.Name = "btnAddTwitterUser";
             this.btnAddTwitterUser.Size = new System.Drawing.Size(175, 23);
             this.btnAddTwitterUser.TabIndex = 1;
@@ -63,7 +75,7 @@
             // 
             // btnAddKeyword
             // 
-            this.btnAddKeyword.Location = new System.Drawing.Point(194, 39);
+            this.btnAddKeyword.Location = new System.Drawing.Point(194, 83);
             this.btnAddKeyword.Name = "btnAddKeyword";
             this.btnAddKeyword.Size = new System.Drawing.Size(175, 23);
             this.btnAddKeyword.TabIndex = 3;
@@ -73,29 +85,32 @@
             // 
             // lbKeywords
             // 
+            this.lbKeywords.BackColor = System.Drawing.SystemColors.Control;
             this.lbKeywords.FormattingEnabled = true;
-            this.lbKeywords.Location = new System.Drawing.Point(194, 68);
+            this.lbKeywords.Location = new System.Drawing.Point(194, 112);
             this.lbKeywords.Name = "lbKeywords";
             this.lbKeywords.Size = new System.Drawing.Size(176, 303);
             this.lbKeywords.TabIndex = 2;
             // 
             // txtAddTwitterUser
             // 
-            this.txtAddTwitterUser.Location = new System.Drawing.Point(12, 13);
+            this.txtAddTwitterUser.BackColor = System.Drawing.SystemColors.Control;
+            this.txtAddTwitterUser.Location = new System.Drawing.Point(12, 57);
             this.txtAddTwitterUser.Name = "txtAddTwitterUser";
             this.txtAddTwitterUser.Size = new System.Drawing.Size(175, 20);
             this.txtAddTwitterUser.TabIndex = 4;
             // 
             // txtAddKeyword
             // 
-            this.txtAddKeyword.Location = new System.Drawing.Point(195, 13);
+            this.txtAddKeyword.BackColor = System.Drawing.SystemColors.Control;
+            this.txtAddKeyword.Location = new System.Drawing.Point(195, 57);
             this.txtAddKeyword.Name = "txtAddKeyword";
             this.txtAddKeyword.Size = new System.Drawing.Size(175, 20);
             this.txtAddKeyword.TabIndex = 5;
             // 
             // btnDeleteKeyword
             // 
-            this.btnDeleteKeyword.Location = new System.Drawing.Point(195, 377);
+            this.btnDeleteKeyword.Location = new System.Drawing.Point(195, 421);
             this.btnDeleteKeyword.Name = "btnDeleteKeyword";
             this.btnDeleteKeyword.Size = new System.Drawing.Size(175, 23);
             this.btnDeleteKeyword.TabIndex = 7;
@@ -105,7 +120,7 @@
             // 
             // btnDeleteTwitterUser
             // 
-            this.btnDeleteTwitterUser.Location = new System.Drawing.Point(13, 377);
+            this.btnDeleteTwitterUser.Location = new System.Drawing.Point(13, 421);
             this.btnDeleteTwitterUser.Name = "btnDeleteTwitterUser";
             this.btnDeleteTwitterUser.Size = new System.Drawing.Size(175, 23);
             this.btnDeleteTwitterUser.TabIndex = 6;
@@ -116,46 +131,117 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(393, 68);
+            this.dataGridView1.Location = new System.Drawing.Point(393, 112);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(375, 332);
             this.dataGridView1.TabIndex = 8;
             // 
-            // btnViewUsersTweets
+            // btnSearch
             // 
-            this.btnViewUsersTweets.Location = new System.Drawing.Point(580, 42);
-            this.btnViewUsersTweets.Name = "btnViewUsersTweets";
-            this.btnViewUsersTweets.Size = new System.Drawing.Size(130, 23);
-            this.btnViewUsersTweets.TabIndex = 9;
-            this.btnViewUsersTweets.Text = "View users tweets";
-            this.btnViewUsersTweets.UseVisualStyleBackColor = true;
-            this.btnViewUsersTweets.Click += new System.EventHandler(this.btnViewUsersTweets_Click);
+            this.btnSearch.Location = new System.Drawing.Point(393, 83);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(130, 23);
+            this.btnSearch.TabIndex = 9;
+            this.btnSearch.Text = "Search!";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // textBox1
+            // progressBar1
             // 
-            this.textBox1.Location = new System.Drawing.Point(393, 44);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 10;
+            this.progressBar1.Location = new System.Drawing.Point(13, 450);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(356, 13);
+            this.progressBar1.TabIndex = 11;
             // 
-            // btnGetTweets
+            // tmrRefreshTwitter
             // 
-            this.btnGetTweets.Location = new System.Drawing.Point(499, 42);
-            this.btnGetTweets.Name = "btnGetTweets";
-            this.btnGetTweets.Size = new System.Drawing.Size(75, 23);
-            this.btnGetTweets.TabIndex = 11;
-            this.btnGetTweets.Text = "getTweets";
-            this.btnGetTweets.UseVisualStyleBackColor = true;
-            this.btnGetTweets.Click += new System.EventHandler(this.btnGetTweets_Click);
+            this.tmrRefreshTwitter.Interval = 1000;
+            this.tmrRefreshTwitter.Tick += new System.EventHandler(this.tmrRefreshTwitter_Tick);
+            // 
+            // lblCountdown
+            // 
+            this.lblCountdown.AutoSize = true;
+            this.lblCountdown.Location = new System.Drawing.Point(376, 449);
+            this.lblCountdown.Name = "lblCountdown";
+            this.lblCountdown.Size = new System.Drawing.Size(0, 13);
+            this.lblCountdown.TabIndex = 12;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.optionsToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(780, 24);
+            this.menuStrip1.TabIndex = 13;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsToolStripMenuItem.Text = "&Options";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiEx,
+            this.tsmi5M,
+            this.tsmi10M,
+            this.tsmi30M,
+            this.tsmi1H});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Text = "Refresh Rate";
+            // 
+            // tsmi5M
+            // 
+            this.tsmi5M.Checked = true;
+            this.tsmi5M.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tsmi5M.Name = "tsmi5M";
+            this.tsmi5M.Size = new System.Drawing.Size(152, 22);
+            this.tsmi5M.Text = "5m";
+            this.tsmi5M.Click += new System.EventHandler(this.tsmi5M_Click);
+            // 
+            // tsmi10M
+            // 
+            this.tsmi10M.Name = "tsmi10M";
+            this.tsmi10M.Size = new System.Drawing.Size(152, 22);
+            this.tsmi10M.Text = "10M";
+            this.tsmi10M.Click += new System.EventHandler(this.tsmi10M_Click);
+            // 
+            // tsmi30M
+            // 
+            this.tsmi30M.Name = "tsmi30M";
+            this.tsmi30M.Size = new System.Drawing.Size(152, 22);
+            this.tsmi30M.Text = "30M";
+            this.tsmi30M.Click += new System.EventHandler(this.tsmi30M_Click);
+            // 
+            // tsmi1H
+            // 
+            this.tsmi1H.Name = "tsmi1H";
+            this.tsmi1H.Size = new System.Drawing.Size(152, 22);
+            this.tsmi1H.Text = "1H";
+            this.tsmi1H.Click += new System.EventHandler(this.tsmi1H_Click);
+            // 
+            // tsmiEx
+            // 
+            this.tsmiEx.Name = "tsmiEx";
+            this.tsmiEx.Size = new System.Drawing.Size(152, 22);
+            this.tsmiEx.Text = "Expirimental";
+            this.tsmiEx.Click += new System.EventHandler(this.tsmiEx_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(780, 412);
-            this.Controls.Add(this.btnGetTweets);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.btnViewUsersTweets);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(780, 468);
+            this.Controls.Add(this.lblCountdown);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnDeleteKeyword);
             this.Controls.Add(this.btnDeleteTwitterUser);
@@ -165,9 +251,14 @@
             this.Controls.Add(this.lbKeywords);
             this.Controls.Add(this.btnAddTwitterUser);
             this.Controls.Add(this.lbTwitterUsers);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "TwitterGambler";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -184,9 +275,18 @@
         private System.Windows.Forms.Button btnDeleteKeyword;
         private System.Windows.Forms.Button btnDeleteTwitterUser;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button btnViewUsersTweets;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button btnGetTweets;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Timer tmrRefreshTwitter;
+        private System.Windows.Forms.Label lblCountdown;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem tsmi5M;
+        private System.Windows.Forms.ToolStripMenuItem tsmi10M;
+        private System.Windows.Forms.ToolStripMenuItem tsmi30M;
+        private System.Windows.Forms.ToolStripMenuItem tsmi1H;
+        private System.Windows.Forms.ToolStripMenuItem tsmiEx;
 
     }
 }
